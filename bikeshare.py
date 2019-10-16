@@ -114,7 +114,7 @@ def day_info(d):
  # Loads data for the specified city
 def load_data(city):
 
-    print('\nLoading the data... .. .. ..\n')
+    print('\nLoading the data from the city... .. .. ..\n')
     df = pd.read_csv(CITY_DATA[city])
 
     #extracting from Start Time
