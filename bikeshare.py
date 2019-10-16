@@ -1,4 +1,4 @@
- 
+
 import time
 import pandas as pd
 import numpy as np
@@ -15,6 +15,7 @@ def city_input():
     This function starts the user interface by introduction and
     asking the user with the city he/she wants to analyze
     '''
+    Print('welcome in Bike-share Analyze System ')
     print('Hello!Let\'s explore some US bikeshare data!')
     print(' ')
     # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
@@ -26,7 +27,7 @@ def city_input():
     city = input('Please choose the city for which you would like to see the Statistics: ')
     city = city.lower()
      # for handling the unexpected input by user
-    while True:    
+    while True:
             if city == '1' or city == 'chicago':
                 print("\nChicago City \n")
                 return 'chicago'
@@ -51,7 +52,7 @@ def get_time():
     period = input('\nYou want to filter the data by month and day of the month, day of the week, or you do not want to filter at all? Type "no" for no period filter.\n')
     period = period.lower()
 
-    while True: 
+    while True:
         if period == "month":
             while True:
                 day_month = input("\nDo you want to filter the data by day of the month too? Type 'YES' or 'NO'\n").lower()
@@ -61,7 +62,7 @@ def get_time():
                 elif day_month == "yes":
                    print ('\n The data is now being filtered by month and day of the month...\n')
                    return 'day_of_month'
-                
+
         if period == "day":
             print('\n The data is now being filtered by the day of the week...\n')
             return 'day_of_week'
@@ -70,7 +71,7 @@ def get_time():
             return "none"
         period = input("\n Please choose a period filter option between 'month', 'day' of the week, or none (no) \n").lower()
 # get user input for month (all, january, february, ... , june)
-def month_info(m):      
+def month_info(m):
     if m == 'month':
         month = input('\nChoose month! January, February, March, April, May, or June? Please type the full month name.\n')
         while month.strip().lower() not in ['january', 'february', 'march', 'april', 'may', 'june']:
@@ -79,7 +80,7 @@ def month_info(m):
     else:
         return 'none'
 # Asks the user for a month and a day of month,
-def month_day_info(df, day_m):     
+def month_day_info(df, day_m):
     month_day = []
     if day_m == "day_of_month":
         month = month_info("month")
@@ -88,11 +89,11 @@ def month_day_info(df, day_m):
 
         while (True):
             ask = """ \n Which day of the month? \n
-            Please type your response as an integer between 1 and 7 """                 
-            ask  = ask + str(maximum_day_month) + "\n" 
+            Please type your response as an integer between 1 and 7 """
+            ask  = ask + str(maximum_day_month) + "\n"
             day_m = input(ask)
 
-            try: 
+            try:
                 day_m = int(day_m)
                 if 1 <= day_m <= maximum_day_month:
                     month_day.append(day_m)
@@ -102,7 +103,7 @@ def month_day_info(df, day_m):
     else:
         return 'none'
 # Asks the user for a day and returns the specified day
-def day_info(d):       
+def day_info(d):
     if d == 'day_of_week':
         day = input('\nWhich day? Please type a day M, Tu, W, Th, F, Sa, Su. \n')
         while day.lower().strip() not in ['m', 'tu', 'w', 'th', 'f', 'sa', 'su']:
@@ -112,7 +113,7 @@ def day_info(d):
         return 'none'
  # Loads data for the specified city
 def load_data(city):
-   
+
     print('\nLoading the data... .. .. ..\n')
     df = pd.read_csv(CITY_DATA[city])
 
@@ -127,7 +128,7 @@ def time_filters(df, time, month, week_day, md):
     '''
     Filters the data according to the criteria specified by the user.
     Local Variables:
-    df         - city dataframe 
+    df         - city dataframe
     time       - indicates the specified time (either "month", "day_of_month", or "day_of_week")
     month      - indicates the month used to filter the data
     week_day   - indicates the week day used to filter the data
@@ -145,8 +146,8 @@ def time_filters(df, time, month, week_day, md):
 
     #Filter by day of week
     if time == 'day_of_week':
-        days = ['Monday', 'Tuesday', 
-        'Wednesday', 'Thursday', 
+        days = ['Monday', 'Tuesday',
+        'Wednesday', 'Thursday',
         'Friday', 'Saturday', 'Sunday']
         for d in days:
             if week_day.capitalize() in d:
@@ -252,7 +253,7 @@ def gender_data(df):
         return df['Gender'].value_counts()
     except:
         print('There is no gender data in the source.')
-    
+
 def birth_years(df):
     '''What is the earliest, latest, and most frequent birth year?'''
     # df - dataframe returned from time_filters
@@ -281,7 +282,7 @@ def disp_raw_data(df):
     Displays the data used to compute the stats
     Input:
         the df with all the bikeshare data
-    Returns: 
+    Returns:
        none
     '''
     #omit irrelevant columns from visualization
@@ -298,7 +299,7 @@ def disp_raw_data(df):
         see_data = input("\n Would you like to see five more rows of the data used to compute the stats? Please write 'yes' or 'no' \n").lower()
 
 def main():
-    '''The main function calculates and prints out the 
+    '''The main function calculates and prints out the
     descriptive statistics about a requested city
     '''
     # calling all the functions step by step
@@ -311,13 +312,13 @@ def main():
 
     df = time_filters(df, period, month, day, month_day)
     disp_raw_data(df)
-    
+
     # all the conclusions
     stats_funcs_list = [month_freq,
-     day_freq, hour_freq, 
-     ride_duration, common_trip, 
+     day_freq, hour_freq,
+     ride_duration, common_trip,
      stations_freq, bike_users, birth_years, gender_data]
-	
+
     for x in stats_funcs_list:	# displays processing time for each function block
         process(x, df)
 
@@ -325,7 +326,6 @@ def main():
     restart = input("\n * Would you like to do it again and perform another analysis? Type \'yes\' or \'no\'.\n")
     if restart.upper() == 'YES' or restart.upper() == "Y":
         main()
-
+Print('Thanks for using our System')
 if __name__ == '__main__':
     main()
-
